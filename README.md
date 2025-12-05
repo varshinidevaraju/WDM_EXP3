@@ -42,66 +42,78 @@ for each wear category.</p>
 from collections import defaultdict
 from itertools import combinations
 # Function to generate candidate k-item sequences
-def generate_candidates(dataset, k):
-
-
-    /WRITE YOUR CODE HERE/
-
-
-#Function to perform GSP algorithm
+def generate_candidates(dataset, k, min_support):
+    candidates = defaultdict(int)
+    for seq in dataset:
+        for comb in combinations(seq, k):
+            candidates[comb] += 1
+    return {item: support for item, support in candidates.items() if support >= min_support}
+# Function to perform GSP algorithm
 def gsp(dataset, min_support):
-
-
-  /WRITE YOUR CODE HERE/
-
-
-#Example dataset for each category
+    frequent_patterns = defaultdict(int)  # Corrected variable name
+    k = 1
+    sequences = dataset
+    while True:
+        candidates = generate_candidates(sequences, k, min_support)
+        if not candidates:
+            break
+        frequent_patterns.update(candidates)
+        k += 1
+    return frequent_patterns
+# Example dataset for each category
 top_wear_data = [
- ["blouse", "t-shirt", "tank_top"],
- ["hoodie", "sweater", "top"],["hoodie"],["hoodie","sweater"]
- #Add more sequences for top wear
+    ["blouse", "t-shirt", "tank_top"],
+    ["hoodie", "sweater", "top"],
+    ["hoodie"],
+    ["hoodie", "sweater"]
+    # Add more sequences for top wear
 ]
 bottom_wear_data = [
- ["jeans", "trousers", "shorts"],
- ["leggings", "skirt", "chinos"],
- # Add more sequences for bottom wear
+    ["jeans", "trousers", "shorts"],
+    ["leggings", "skirt", "chinos"],
+    # Add more sequences for bottom wear
 ]
 party_wear_data = [
- ["cocktail_dress", "evening_gown", "blazer"],
- ["party_dress", "formal_dress", "suit"],
- ["party_dress", "formal_dress", "suit"],
- ["party_dress", "formal_dress", "suit"],
- ["party_dress", "formal_dress", "suit"],
- ["party_dress"],["party_dress"],
- # Add more sequences for party wear
+    ["cocktail_dress", "evening_gown", "blazer"],
+    ["party_dress", "formal_dress", "suit"],
+    ["party_dress", "formal_dress", "suit"],
+    ["party_dress", "formal_dress", "suit"],
+    ["party_dress", "formal_dress", "suit"],
+    ["party_dress"],
+    ["party_dress"]
+    # Add more sequences for party wear
 ]
-#Minimum support threshold
+# Minimum support threshold
 min_support = 2
-#Perform GSP algorithm for each category
+# Perform GSP algorithm for each category
 top_wear_result = gsp(top_wear_data, min_support)
 bottom_wear_result = gsp(bottom_wear_data, min_support)
 party_wear_result = gsp(party_wear_data, min_support)
-#Output the frequent sequential patterns for each category
+
+# Output the frequent sequential patterns for each category
 print("Frequent Sequential Patterns - Top Wear:")
 if top_wear_result:
- for pattern, support in top_wear_result.items():
- print(f"Pattern: {pattern}, Support: {support}")
+    for pattern, support in top_wear_result.items():
+        print(f"Pattern: {pattern}, Support: {support}")
 else:
- print("No frequent sequential patterns found in Top Wear.")
+    print("No frequent sequential patterns found in Top Wear.")
+
 print("\nFrequent Sequential Patterns - Bottom Wear:")
 if bottom_wear_result:
- for pattern, support in bottom_wear_result.items():
- print(f"Pattern: {pattern}, Support: {support}")
+    for pattern, support in bottom_wear_result.items():
+        print(f"Pattern: {pattern}, Support: {support}")
 else:
- print("No frequent sequential patterns found in Bottom Wear.")
+    print("No frequent sequential patterns found in Bottom Wear.")
+
 print("\nFrequent Sequential Patterns - Party Wear:")
 if party_wear_result:
- for pattern, support in party_wear_result.items():
- print(f"Pattern: {pattern}, Support: {support}")
+    for pattern, support in party_wear_result.items():
+        print(f"Pattern: {pattern}, Support: {support}")
 else:
- print("No frequent sequential patterns found in Party Wear.")
+    print("No frequent sequential patterns found in Party Wear.")
 ```
 ### Output:
+![w1](https://github.com/user-attachments/assets/d048a402-9219-4313-a30a-6298d45cc609)
 
 ### Visualization:
 ```python
@@ -129,7 +141,11 @@ visualize_patterns_line(top_wear_result, 'Top Wear')
 visualize_patterns_line(bottom_wear_result, 'Bottom Wear')
 visualize_patterns_line(party_wear_result, 'Party Wear')
 ```
+
 ### Output:
+![w2](https://github.com/user-attachments/assets/6b6d76e1-2a2e-462a-9843-e318b4fef23c)
+![w3](https://github.com/user-attachments/assets/1d434df5-c400-495d-9121-e2c986a8396f)
 
 
 ### Result:
+Thus GSP algorithm has been implemented succesfully using python.
